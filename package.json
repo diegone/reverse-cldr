@@ -1,0 +1,27 @@
+{
+  "name": "reverse-cldr",
+  "version": "1.0.0",
+  "description": "Reverse lookup for low-cardinality CLDR data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegone/reverse-cldr.git"
+  },
+  "keywords": [
+    "CLDR"
+  ],
+  "author": "Diego Lagunas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diegone/reverse-cldr/issues"
+  },
+  "homepage": "https://github.com/diegone/reverse-cldr#readme",
+  "dependencies": {
+    "cldr-core": "^39.0.0",
+    "cldr-dates-modern": "^39.0.0",
+    "cldr-numbers-modern": "^39.0.0"
+  }
+}
