@@ -2,7 +2,7 @@
   "name": "reverse-cldr",
   "version": "1.0.0",
   "description": "Reverse lookup for low-cardinality CLDR data.",
-  "main": "index.js",
+  "main": "scripts/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
