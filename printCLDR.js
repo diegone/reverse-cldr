@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const {locales, localeSets, reverseCLDR} = JSON.parse(fs.readFileSync('reverseCLDR.json'));
+const {locales, localeSets, reverseCLDR} = JSON.parse(fs.readFileSync(process.argv[2]));
 
 const expandedLocaleSets = localeSets.map(str => Array.from(str).map(localeChar => locales[localeChar.charCodeAt(0) - 32]));
 
