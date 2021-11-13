@@ -1,6 +1,6 @@
 {
   "name": "reverse-cldr",
-  "version": "1.0.0",
+  "version": "40.0.0",
   "description": "Reverse lookup for low-cardinality CLDR data.",
   "main": "scripts/index.js",
   "scripts": {
