@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/diegone/reverse-cldr#readme",
   "dependencies": {
-    "cldr-core": "^39.0.0",
-    "cldr-dates-modern": "^39.0.0",
-    "cldr-numbers-modern": "^39.0.0"
+    "cldr-core": "^40.0.0",
+    "cldr-dates-modern": "^40.0.0",
+    "cldr-numbers-modern": "^40.0.0"
   }
 }
