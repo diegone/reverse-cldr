@@ -4,6 +4,7 @@
   "description": "Reverse lookup for low-cardinality CLDR data.",
   "main": "scripts/index.js",
   "scripts": {
+    "postinstall": "npm run regenerate",
     "regenerate": "node scripts/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

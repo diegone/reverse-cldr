@@ -65,6 +65,20 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
+# Generated CLDR reverse lookup data
+/ca-generic.js
+/ca-generic.json
+/ca-gregorian.js
+/ca-gregorian.json
+/currencies.js
+/currencies.json
+/dateFields.js
+/dateFields.json
+/numbers.js
+/numbers.json
+/timeZoneNames.js
+/timeZoneNames.json
+
 # Yarn Integrity file
 .yarn-integrity
 
