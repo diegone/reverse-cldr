@@ -1,8 +1,27 @@
 const availableLocales = require('cldr-core/availableLocales.json');
-const locales = availableLocales.availableLocales.modern;
+const {effectiveCoverageLevels} = require('cldr-core/coverageLevels.json');
+const defaultContent = require('cldr-core/defaultContent.json');
+const availableLocaleSet = new Set(availableLocales.availableLocales.full);
 const fs = require('fs');
 const path = require('path');
 
+function findDataLocale(locale) {
+    const parts = locale.split('-');
+    while (parts.length > 0) {
+        const candidate = parts.join('-');
+        if (availableLocaleSet.has(candidate)) {
+            return candidate;
+        }
+        parts.pop();
+    }
+    return null;
+}
+
+const localeDataEntries = defaultContent.defaultContent
+    .map(locale => ({locale, dataLocale: findDataLocale(locale)}))
+    .filter(({dataLocale}) => dataLocale && effectiveCoverageLevels[dataLocale] === 'modern');
+
+const locales = localeDataEntries.map(({locale}) => locale);
 const localeIdx = {};
 locales.forEach((l, idx) => localeIdx[l] = idx);
 
@@ -20,20 +39,20 @@ function generateReverseCLDR(packageName, dataFileName) {
         }
     }
     
-    function appendLocaleData(locale, module, file) {
+    function appendLocaleData(locale, dataLocale, module, file) {
         const modulePath = path.dirname(require.resolve(`${module}/package.json`));
-        const dataFilePath = path.join(modulePath, 'main', locale, file);
+        const dataFilePath = path.join(modulePath, 'main', dataLocale, file);
         if (fs.existsSync(dataFilePath)) {
-            const localeData = JSON.parse(fs.readFileSync(dataFilePath, 'utf-8')).main[locale];
+            const localeData = JSON.parse(fs.readFileSync(dataFilePath, 'utf-8')).main[dataLocale];
             delete localeData.identity;
             appendObject(reverseCLDR, localeData, String.fromCharCode(32 + localeIdx[locale]));
         } else {
-            console.log(`File ${file} in module ${module} is missing in locale ${locale}`);
+            console.log(`File ${file} in module ${module} is missing in locale ${locale} (${dataLocale})`);
         }
     }
     
-    for (const locale of locales) {
-        appendLocaleData(locale, packageName, `${dataFileName}.json`);
+    for (const {locale, dataLocale} of localeDataEntries) {
+        appendLocaleData(locale, dataLocale, packageName, `${dataFileName}.json`);
     }
     
     function traverseCLDR(cb, node, parent, slug) {
@@ -75,9 +94,9 @@ function generateReverseCLDR(packageName, dataFileName) {
     fs.writeFileSync(`${dataFileName}.js`, moduleSource.join('\n'));    
 }
 
-generateReverseCLDR('cldr-numbers-modern', 'numbers');
-generateReverseCLDR('cldr-numbers-modern', 'currencies');
-generateReverseCLDR('cldr-dates-modern', 'ca-generic');
-generateReverseCLDR('cldr-dates-modern', 'ca-gregorian');
-generateReverseCLDR('cldr-dates-modern', 'dateFields');
-generateReverseCLDR('cldr-dates-modern', 'timeZoneNames');
+generateReverseCLDR('cldr-numbers-full', 'numbers');
+generateReverseCLDR('cldr-numbers-full', 'currencies');
+generateReverseCLDR('cldr-dates-full', 'ca-generic');
+generateReverseCLDR('cldr-dates-full', 'ca-gregorian');
+generateReverseCLDR('cldr-dates-full', 'dateFields');
+generateReverseCLDR('cldr-dates-full', 'timeZoneNames');
